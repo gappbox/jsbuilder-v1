@@ -1,10 +1,11 @@
-name: Build And Test
+name: Check and Build
 
 on:
   pull_request:
     types:
       - opened
       - labeled
+      - unlabeled
       - synchronize
     branches:
       - main
@@ -27,7 +28,7 @@ jobs:
             const labels = context.payload.pull_request.labels.map((label) => label.name);
             
             if (!requiredLabels.every(label => labels.includes(label))) {
-              core.setFailed(`❌ The "release" label is missing. Please add the "release" label to proceed.`);
+              core.setFailed(`❌ The "release" label is required. Please add the "release" label to proceed.`);
               return;
             }
 
@@ -37,7 +38,7 @@ jobs:
             }
 
   build:
-    name: Test and Build
+    name: Build Application
     needs: check-label
 
     runs-on: ubuntu-latest
