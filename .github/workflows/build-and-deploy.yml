@@ -1,0 +1,75 @@
+name: Build and Deploy
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  check-label:
+    name: Validate labels
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    outputs:
+      deployToGitHubPages: ${{ steps.labels.outputs.deployToGitHubPages }}
+      deployToDockerHub: ${{ steps.labels.outputs.deployToDockerHub }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for "release" labels
+        uses: actions/github-script@v7
+        id: labels
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map((label) => label.name);
+            const deployToGitHubPages = labels.includes('gh-pages');
+            const deployToDockerHub = labels.includes('docker');
+            core.setOutput('deployToGitHubPages', deployToGitHubPages);
+            core.setOutput('deployToDockerHub', deployToDockerHub);
+
+  build:
+    name: Build Application
+    needs: check-label
+    runs-on: ubuntu-latest
+    outputs:
+      deployToGitHubPages: ${{ needs.check-label.outputs.deployToGitHubPages }}
+      deployToDockerHub: ${{ needs.check-label.outputs.deployToDockerHub }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.11.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build artifact
+        run: npm run build-gh-pages
+
+      - name: Upload artifact
+        if: ${{ needs.check-label.outputs.deployToGitHubPages == 'true' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: /home/runner/work/jsbuilder-v1/jsbuilder-v1/build
+          retention-days: 1
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: ${{ needs.build.outputs.deployToGitHubPages == 'true' }}
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Push to GitGub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

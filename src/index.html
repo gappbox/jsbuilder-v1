@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>jQuery Builder</title>
+    <script>
+      var base = document.createElement('base');
+      base.href = location.pathname;
+      document.head.prepend(base);
+    </script>
     <link media="all" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link media="all" rel="stylesheet" href="css/styles.min.css">
 </head>
