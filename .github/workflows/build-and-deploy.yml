@@ -30,29 +30,22 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: artifact
           path: /home/runner/work/jsbuilder-v1/jsbuilder-v1/build
           retention-days: 1
 
   deploy:
     name: Deploy to GitHub Pages
     needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: artifact
-          path: /home/runner/work/jsbuilder-v1/jsbuilder-v1/build
-
       - name: Push to GitGub Pages
         id: deployment
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: /home/runner/work/jsbuilder-v1/jsbuilder-v1/build
+        uses: actions/deploy-pages@v4
