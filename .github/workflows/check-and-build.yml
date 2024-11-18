@@ -13,7 +13,6 @@ on:
 jobs:
   check-label:
     name: Validate labels
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -40,7 +39,6 @@ jobs:
   build:
     name: Build Application
     needs: check-label
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
