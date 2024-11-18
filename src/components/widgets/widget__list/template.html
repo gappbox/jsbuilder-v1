@@ -1,0 +1,27 @@
+<div class="widget-list-wrap">
+    <div class="widget-list-wrap_w1" ng-scrollbar scrollbar-x="false" scrollbar-y="true" scrollbar-config="{show:true, autoResize: true, dragSpeed: 1.2}">
+        <div class="widget-list-wrap__category-list" ng-repeat="(categoryName, widgets) in $ctrl.PageData.widgetsStructure">
+            <div class="widget-list-wrap__category">
+                <div>
+                    <span ng-bind="categoryName | translate"></span>
+                    <span class="widget-list-wrap__category_l"></span>
+                    <span class="widget-list-wrap__category_r"></span>
+                </div>
+            </div>
+            <div class="widget-list">
+                <div class="widget" ng-repeat="(key, widget) in widgets | cFilter: $ctrl.search" ng-class="{ 'is-selected' : $ctrl.PageData.widgets[widget.Id].IsChecked }" ng-if="$ctrl.PageData.widgets[widget.Id].Enable">
+                    <div class="widget__name">
+                        <div ng-bind="widget.Title | translate"></div>
+                        <div class="widget__indicator" ng-if="!$ctrl.PageData.widgets[widget.Id].IsChecked" ng-click="$ctrl.turnOn(widget.Id)"><i class="fa fa-power-off" aria-hidden="true"></i></div>
+                        <div class="widget__indicator" ng-if="$ctrl.PageData.widgets[widget.Id].IsChecked"  ng-click="$ctrl.turnOff(widget.Id)"><i class="fa fa-star" aria-hidden="true"></i></div>
+                        <div class="widget__settings">
+                            <div ng-if="$ctrl.PageData.widgets[widget.Id].Options && $ctrl.PageData.widgets[widget.Id].IsChecked" ng-popover ng-component="widget-Properties" ng-click="$ctrl.showProperties(widget.Id)">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

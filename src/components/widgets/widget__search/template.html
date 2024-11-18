@@ -1,0 +1,9 @@
+<div class="search">
+    <div class="search__row">
+        <input class="search__input" ng-model="$ctrl.search" type="text" placeholder="{{'SEARCH_PLACEHOLDER' | translate}}">
+        <span class="search__icon">
+            <a ng-if="$ctrl.search.length" ng-click="$ctrl.search = ''"><i class="fa fa-times" aria-hidden="true"></i></a>
+            <i ng-if="!$ctrl.search.length" class="fa fa-search" aria-hidden="true"></i>
+        </span>
+    </div>
+</div>

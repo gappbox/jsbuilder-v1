@@ -1,0 +1,97 @@
+@mixin size($width, $height: $width) {
+    height: $height;
+    width: $width;
+}
+
+@mixin center($width) {
+    margin: 0 auto;
+    max-width: $width;
+}
+
+@mixin center-v() {
+    text-align: center;
+    white-space: nowrap;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -0.25em;
+    }
+
+    > .center-v {
+        white-space: normal;
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+    }
+}
+
+@mixin position($position: absolute, $zIndex: 999) {
+    position: $position;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: $zIndex;
+}
+
+@mixin inline-block($align: top) {
+    display: inline-block;
+    vertical-align: $align;
+}
+
+@mixin inline-block-clear($state: false, $align: top) {
+    @if ($state) {
+        letter-spacing: 0;
+        display: inline-block;
+        vertical-align: $align;
+    } @else {
+        letter-spacing: -0.36em;
+    }
+
+}
+
+@mixin make-row($gutter: 15px) {
+    margin-left: -$gutter;
+    margin-right: -$gutter;
+}
+
+@mixin make-col($num:2, $gutter: 15px) {
+    padding-left: $gutter;
+    padding-right: $gutter;
+    width: 100% / $num;
+}
+
+@mixin triangle($direction, $size: 6px, $color: #222){
+    content: '';
+    display: block;
+    position: absolute;
+    height: 0;
+    width: 0;
+    @if ($direction == 'up'){
+        border-bottom: $size solid $color;
+        border-left: 1/2*$size solid transparent;
+        border-right: 1/2*$size solid transparent;
+    } @else if ($direction == 'down'){
+        border-top: $size solid $color;
+        border-left: 1/2*$size solid transparent;
+        border-right: 1/2*$size solid transparent;
+    } @else if ($direction == 'left'){
+        border-top: 1/2*$size solid transparent;
+        border-bottom: 1/2*$size solid transparent;
+        border-right: $size solid $color;
+    } @else if ($direction == 'right'){
+        border-top: 1/2*$size solid transparent;
+        border-bottom: 1/2*$size solid transparent;
+        border-left: $size solid $color;
+    }
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &::-moz-placeholder {opacity: 1; @content}
+    &:-moz-placeholder {@content}
+    &:-ms-input-placeholder {@content}
+    &.placeholder {@content}
+}

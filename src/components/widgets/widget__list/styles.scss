@@ -1,0 +1,138 @@
+@use '../../../assets/styles/base/mixins';
+
+.widget-list-wrap {
+    background: rgba(0,0,0,.2);
+    border-radius: 3px;
+    box-shadow: 0 1px 1px #606060, inset 0 1px 1px #2a2a2a;
+    padding: 7px;
+}
+
+.widget-list-wrap_w1 {
+    height: calc(100vh - 140px);
+}
+
+.widget-list-wrap__category-list {
+    margin: 6px 0 0;
+    
+    &:first-child {
+        margin: 0;
+    }
+}
+
+.widget-list-wrap__category {
+    font-size: 15px;
+    font-family: Averia Serif Libre,cursive;
+    letter-spacing: 1px;
+    padding: 8px 0 15px 30px;
+    overflow: hidden;
+    text-transform: uppercase;
+    
+    > div {
+        @include mixins.inline-block;
+        
+        position: relative;
+    }
+}
+
+.widget-list-wrap__category_l,
+.widget-list-wrap__category_r {
+    @include mixins.size(200px, 4px);
+    
+    border-top: 1px solid hsla(0,0%,100%,.3);
+    border-bottom: 1px solid hsla(0,0%,100%,.3);
+    position: absolute;
+    top: 7px;
+}
+
+.widget-list-wrap__category_l {
+    margin: 0 0 0 10px;
+    left: 100%;
+}
+
+.widget-list-wrap__category_r {
+    margin: 0 10px 0 0;
+    right: 100%;
+}
+
+.widget {
+    margin: 10px 0 0;
+    position: relative;
+    overflow: hidden;
+    
+    &:first-child {
+        margin: 0;
+    }
+    
+    &.is-selected {
+        .widget__name {
+            background:  url(../../../assets/images/bg-btn-overlay.png), -moz-linear-gradient(to bottom,  #68B4DD 0%,#2F86B2 100%);
+            background:  url(../../../assets/images/bg-btn-overlay.png), -webkit-linear-gradient(to bottom,  #68B4DD 0%,#2F86B2 100%);
+            background:  url(../../../assets/images/bg-btn-overlay.png), linear-gradient(to bottom,  #68B4DD 0%,#2F86B2 100%);
+            box-shadow: 0 1px 1px rgba(255,255,255,0.3) inset;
+        }
+    
+        .widget__indicator {
+            color: #fff;
+        }
+    }
+}
+
+.widget__name {
+    background: url(../../../assets/images/bg-btn-overlay.png), -moz-linear-gradient(top, #aad15f 0%, #84a93d 100%);
+    background: url(../../../assets/images/bg-btn-overlay.png), -webkit-linear-gradient(to bottom,  #565656 0%,#464646 100%);
+    background: url(../../../assets/images/bg-btn-overlay.png), linear-gradient(to bottom,  #565656 0%,#464646 100%);
+    box-shadow: 0 1px 1px rgba(255,255,255,0.15) inset, 0 1px 1px #202020;
+    border-radius: 2px;
+    color: #efefef;
+    font: {
+        size: 12px;
+        weight: bold;
+    }
+    margin: 0;
+    text-shadow: 0 1px 1px #555;
+    position: relative;
+    padding: 11px 25px 9px 34px;
+    
+    &:hover {
+        background:  url(../../../assets/images/bg-btn-overlay.png), -moz-linear-gradient(to bottom,  #5a5a5a 0%,#484848 100%);
+        background:  url(../../../assets/images/bg-btn-overlay.png), -webkit-linear-gradient(to bottom,  #5a5a5a 0%,#484848 100%);
+        background:  url(../../../assets/images/bg-btn-overlay.png), linear-gradient(to bottom,  #5a5a5a 0%,#484848 100%);
+    }
+}
+
+.widget__indicator {
+    @include mixins.size(100%);
+    
+    cursor: pointer;
+    font: {
+        size: 13px;
+    }
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 11px;
+    z-index: 10;
+}
+
+.widget__settings {
+    position: absolute;
+    top: 8px;
+    right: 9px;
+    z-index: 15;
+    font: {
+        size: 16px;
+    }
+    
+    > div {
+        @include mixins.inline-block;
+        @include mixins.size(20px);
+        
+        cursor: pointer;
+        margin-left: 2px;
+        text-align: center;
+        
+        .fa {
+            @include mixins.inline-block(middle);
+        }
+    }
+}

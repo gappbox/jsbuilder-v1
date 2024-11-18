@@ -1,0 +1,14 @@
+.layout {
+    overflow: hidden;
+    padding: 15px;
+}
+
+.layout__column {
+    float: left;
+    width: calc(100% - 285px);
+    
+    &:first-child {
+        margin: 0 15px 0 0;
+        width: 270px;
+    }
+}

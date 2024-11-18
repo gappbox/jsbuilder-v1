@@ -1,0 +1,292 @@
+@use './../../styles/base/variables';
+@use './../../styles/base/mixins';
+
+.form-group {
+    position: relative;
+    display: flex;
+    margin: 0 0 4px;
+    
+    .form-control-col {
+        width: calc(100% - 164px);
+    }
+}
+
+.is-checkbox {
+    padding: 3px 0 0;
+}
+
+.label {
+    display: block;
+    font-size: 12px;
+    padding: 5px 10px 4px 0;
+    border-bottom: 1px dashed #b3b3b3;
+    width: 154px;
+    margin: 0 10px 0 0;
+}
+
+.form-control {
+    border: 1px solid #c9c9c9;
+    background: #f5f5f5;
+    color: variables.$input-color;
+    height: 29px;
+    display: block;
+    padding: 0 10px;
+    width: 100%;
+
+    @include mixins.placeholder {
+        color: variables.$input-color;
+    };
+
+    &:focus {
+        border: 1px solid #2C3B48;
+        outline: none;
+    }
+}
+
+textarea {
+    height: 140px;
+    resize: none;
+}
+
+.select {
+    border: 1px solid #c9c9c9;
+    background: #f5f5f5;
+    color: variables.$input-color;
+    height: 29px;
+    display: block;
+    width: 100%;
+    margin:0;
+    font:inherit;
+    outline:none;
+    line-height:1.2;
+    appearance:none;
+    position: relative;
+    
+    &:focus {
+        border: 1px solid #2C3B48;
+    }
+    
+    .select-value {
+        cursor: pointer;
+        padding: 7px 40px 7px 10px;
+        
+        &:before{
+            content:"";
+            position:absolute;
+            top: 2px;
+            right: 2px;
+            bottom: 2px;
+            width: 29px;
+            background: #2C3B48;
+            pointer-events:none;
+            z-index: 1;
+        }
+    
+        &:after{
+            position: absolute;
+            pointer-events:none;
+            right:12px;
+            content:'';
+            width:8px;
+            height:8px;
+            top: 14px;
+            border:3px solid rgba(255,255,255,0.88);
+            border-width:0 0 2px 2px;
+            transform: rotate(-45deg);
+            margin-top:-6px;
+            line-height: 0;
+            z-index: 1;
+        }
+    }
+    
+    .select-drop {
+        background: #f5f5f5;
+        border: 1px solid #c9c9c9;
+        position: absolute;
+        top: 100%;
+        left: -1px;
+        right: -1px;
+        z-index: 10;
+        
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        li {
+            cursor: pointer;
+            padding: 8px 10px;
+            border-top: 1px solid #c9c9c9;
+            
+            &:first-child {
+                border: none;
+            }
+            
+            &.selected {
+                background: #E8EAEE;
+            }
+            
+            &:hover {
+                background: #2C3B48;
+                color: #fff;
+            }
+        }
+    }
+}
+
+.x-select {
+    display: block;
+    position: relative;
+
+    &:before{
+        content:"";
+        position:absolute;
+        top: 2px;
+        right: 2px;
+        bottom: 2px;
+        width: 29px;
+        background: #2C3B48;
+        pointer-events:none;
+        z-index: 1;
+    }
+
+    &:after{
+        position: absolute;
+        pointer-events:none;
+        right:12px;
+        content:'';
+        width:8px;
+        height:8px;
+        top:54%;
+        border:3px solid rgba(255,255,255,0.88);
+        border-width:0 0 2px 2px;
+        transform: rotate(-45deg);
+        margin-top:-6px;
+        line-height: 0;
+        z-index: 1;
+    }
+
+    select::-ms-expand {display: none;}
+    select{
+        border: 1px solid #c9c9c9;
+        background: #f5f5f5;
+        color: variables.$input-color;
+        height: 29px;
+        display: block;
+        padding: 3px 10px 2px;
+        width: 100%;
+        margin:0;
+        font:inherit;
+        outline:none;
+        line-height:1.2;
+        appearance:none;
+        position: relative;
+    }
+}
+
+.x-checkbox {
+    overflow: hidden;
+
+    input[type="checkbox"] {
+        position:fixed;
+        left:0;
+        top:0;
+        opacity:0;
+        z-index: -1;
+    }
+
+    input[type="checkbox"]:checked + .fake-input .fa{opacity:1;}
+    input[type="checkbox"]:checked ~ .fake-label { color: #82b440 }
+    input[type="checkbox"]:disabled + .fake-input .fa,
+    input[type="checkbox"]:disabled ~ .fake-label{opacity: .5;}
+
+    .fa-check {
+        opacity: 0;
+        font: {
+            size: 10px;
+        }
+    }
+
+    .fake-input {
+        @include mixins.size(16px);
+
+        border:1px solid #bbb;
+        background:#f8f8f8;
+        float: left;
+        line-height: 14px;
+        position: relative;
+        margin-right: 6px;
+        padding: 0 0 0 1px;
+        text-align: center;
+    }
+
+    .fake-label {
+        font: {
+            size: 11px;
+        }
+        overflow: hidden;
+    }
+}
+
+.form-footer {
+    display: flex;
+}
+
+.button {
+    @include mixins.inline-block;
+    color: #fff;
+    background: #aad15f;
+    background: -moz-linear-gradient(top, #9cbf59 0%, #84a93d 100%);
+    background: -webkit-linear-gradient(top, #9cbf59 0%,#84a93d 100%);
+    background: linear-gradient(to bottom, #9cbf59 0%,#84a93d 100%);
+    border-radius: 2px;
+    border: 1px solid #aad15f;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.2);
+
+    font: {
+        size: 11px;
+    }
+    padding: 3px 10px;
+    text-shadow: 0 1px 1px #555;
+    
+    &:hover {
+        background: -moz-linear-gradient(top, #aad15f 0%, #8cb343 100%);
+        background: -webkit-linear-gradient(top, #aad15f 0%,#8cb343 100%);
+        background: linear-gradient(to bottom, #aad15f 0%,#8cb343 100%);
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:active {
+        background: -moz-linear-gradient(top, #94b94d 0%, #8fb44b 100%);
+        background: -webkit-linear-gradient(top, #94b94d 0%,#8fb44b 100%);
+        background: linear-gradient(to bottom, #94b94d 0%,#8fb44b 100%);
+    }
+    
+    i {
+        margin: 0 3px 0 0;
+    }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+input[type="search"],
+textarea {
+    &:focus {
+        outline: none;
+    }
+}

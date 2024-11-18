@@ -1,0 +1,22 @@
+.ngscroll-content-container {
+    width: 240px;
+}
+
+.ngscrollbar-container-y {
+    border-radius: 2px !important;
+    background: #505050 !important;
+    display: block !important;
+    width: 9px !important;
+}
+
+.ngscrollbar-y {
+    background: #85aa3e !important;
+    width: 3px !important;
+    right: 3px !important;
+}
+
+.ngscrollbar-is-hidden {
+    .ngscrollbar-y {
+        opacity: 0 !important;
+    }
+}

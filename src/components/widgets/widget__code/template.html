@@ -1,0 +1,13 @@
+<div class="widget-code">
+    <div class="widget-code__preview">
+        <div ng-switch="$ctrl.PageData.type">
+            <div ng-switch-when="code">
+                <textarea class="widget-code__textarea" ng-bind="$ctrl.PageData.code" readonly></textarea>
+            </div>
+            <div ng-switch-when="demo">
+                <page-loader ng-if="$ctrl.PageData.iframeIsLoaded"></page-loader>
+                <iframe src="{{ $ctrl.PageData.demo }}" iframe-onload="$ctrl.iframeLoadedCallBack()" frameborder="0" class="widget-code__iframe"></iframe>
+            </div>
+        </div>
+    </div>
+</div>

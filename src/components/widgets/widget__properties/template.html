@@ -1,0 +1,90 @@
+<div class="property">
+    <header class="property__header">
+        <h2 class="property__title">
+            <i class="fa fa-folder-open" aria-hidden="true"></i>
+            <span ng-bind="$ctrl.PageData.widgets[$ctrl.PageData.widgetId].Title | translate"></span> {{ 'SETTINGS' | translate }}
+        </h2>
+    </header>
+    <section class="property__list">
+        <div class="property__item" ng-repeat="(itemId, item) in $ctrl.PageData.widgets[$ctrl.PageData.widgetId].Installed">
+            <div class="property__row">
+                <div class="property__column" ng-repeat="(columnId, column) in $ctrl.PageData.widgets[$ctrl.PageData.widgetId].Structure.Columns">
+                    <div class="property__column_title" ng-bind="$ctrl.PageData.widgets[$ctrl.PageData.widgetId].Structure.ColumnsTitle[columnId] | translate"></div>
+                    <div class="property__column_item" ng-repeat="(columnItemId, columnItem) in column">
+                        <div ng-switch="item.options[columnItem].type">
+                            <div ng-switch-when="text">
+                                <div class="form-group">
+                                    <label for="id-{{itemId}}-{{columnId}}-{{columnItemId}}" class="label" ng-bind="item.options[columnItem].label"></label>
+                                    <div class="form-control-col">
+                                        <input ng-blur="$ctrl.changeValue(columnItem, item)" ng-model="item.options[columnItem].value" type="text" class="form-control" id="id-{{itemId}}-{{columnId}}-{{columnItemId}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="number">
+                                <div class="form-group">
+                                    <label for="id-{{itemId}}-{{columnId}}-{{columnItemId}}" class="label" ng-bind="item.options[columnItem].label"></label>
+                                    <div class="form-control-col">
+                                        <input ng-blur="$ctrl.changeValue(columnItem, item)" ng-model="item.options[columnItem].value" type="number" class="form-control" id="id-{{itemId}}-{{columnId}}-{{columnItemId}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="checkbox">
+                                <div class="form-group">
+                                    <div class="form-control-col">
+                                        <label class="x-checkbox">
+                                            <input ng-change="$ctrl.changeValue(columnItem, item)" ng-model="item.options[columnItem].value" type="checkbox">
+                                            <div class="fake-input"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                            <div class="fake-label" ng-bind="item.options[columnItem].label"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="select">
+                                <div class="form-group">
+                                    <label for="id-{{itemId}}-{{columnId}}-{{columnItemId}}" class="label" ng-bind="item.options[columnItem].label"></label>
+                                    <div class="form-control-col">
+                                        <ng-select class="select" ng-click="$ctrl.changeValue(columnItem, item)" value="item.options[columnItem].value" value-list="item.options[columnItem].valueList"></ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="property__row">
+                <div class="property__column" ng-if="$ctrl.PageData.widgets[$ctrl.PageData.widgetId].Callbacks">
+                    <div class="property__column_title" ng-bind="'OPTIONS_CALLBACK' | translate"></div>
+                    <div class="property__column_item" ng-repeat="callback in item.callbacks">
+                        <div class="form-group">
+                            <div class="form-control-col">
+                                <label class="x-checkbox">
+                                    <input ng-model="callback.IsChecked" type="checkbox">
+                                    <div class="fake-input"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                    <div class="fake-label" ng-bind="callback.Name"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button ng-click="$ctrl.onRemoveProperty($ctrl.PageData.widgetId, item.id)" ng-if="$ctrl.PageData.widgets[$ctrl.PageData.widgetId].Installed.length !== 1" class="button">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+                {{ 'CONTROL_REMOVE'| translate }}
+            </button>
+        </div>
+    </section>
+    <footer class="property__footer">
+        <a download ng-href="{{$ctrl.onUserDownload()}}" class="button">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            {{ 'CONTROL_DOWNLOAD' | translate }}
+        </a>
+        <button class="button" ng-click="$ctrl.onAddProperty();">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            {{ 'CONTROL_NEW'| translate }}
+        </button>
+        <button class="button" ng-click="$ctrl.onSaveProperty()">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            {{ 'CONTROL_SAVE'| translate }}
+        </button>
+    </footer>
+</div>

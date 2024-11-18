@@ -1,0 +1,48 @@
+@use './../../styles/base/variables';
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+* {
+    max-height: 1000000px;
+}
+
+body {
+    color: rgba(255,255,255,0.5);
+    background: url('../images/bg-body.jpg');
+    font: 12px/17px 'Fira Sans', sans-serif;
+    min-width: variables.$base-min-width;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: #51a6be;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    }
+
+// google map fix
+.gm-style img {max-width: none}
+
+// hide tel links on desktop
+@media only screen and (min-width:1025px) {
+    a[href^=tel],a[href^=skype], a[href^=sms] {
+        cursor:default;
+        pointer-events:none;
+    }
+}

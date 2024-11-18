@@ -1,0 +1,44 @@
+@use '../../../assets/styles/base/helpers';
+@use '../../../assets/styles/base/mixins';
+
+.widget-toolbar {
+    background: rgba(0,0,0,.2);
+    box-shadow: 0 1px 1px #606060, inset 0 1px 1px #2a2a2a;
+    border-radius: 3px;
+    margin: 0 0 15px;
+    padding: 5px 6px 6px;
+    height: 36px;
+    overflow: hidden;
+}
+
+.widget-toolbar__controls {
+    ul {
+        @include helpers.listreset;
+    
+        overflow: hidden;
+    }
+    
+    li {
+        float: left;
+        margin: 0 6px 0 0;
+        
+        .button {
+            min-width: 46px;
+        }
+        
+        &.active {
+            .button {
+                opacity: 0.8;
+            }
+        }
+        
+        &.reset {
+            float: right;
+            margin: 0 0 0 6px;
+                
+            .button {
+                min-width: 70px;
+            }
+        }
+    }
+}

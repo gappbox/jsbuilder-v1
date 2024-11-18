@@ -1,0 +1,50 @@
+{
+  "name": "jsbuilder",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.js",
+    "build": "rimraf build && cross-env NODE_ENV=production webpack --config ./webpack.config.js",
+    "remove": "rimraf build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-export-default-from": "^7.25.9",
+    "@babel/plugin-transform-runtime": "7.25.9",
+    "@babel/preset-env": "^7.26.0",
+    "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
+    "babel-plugin-transform-object-assign": "6.22.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-polyfill": "6.26.0",
+    "babel-runtime": "^6.26.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "cross-env": "7.0.3",
+    "css-loader": "7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.0",
+    "extract-loader": "^4.0.3",
+    "file-loader": "6.2.0",
+    "html-loader": "^5.1.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "postcss-loader": "^8.1.1",
+    "rimraf": "6.0.1",
+    "sass": "^1.80.7",
+    "sass-loader": "16.0.3",
+    "url-loader": "4.1.1",
+    "webpack": "5.96.1",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "5.1.0",
+    "webpack-hot-middleware": "^2.26.1"
+  },
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-clipboard": "^1.5.0",
+    "angular-highlightjs": "^0.6.3",
+    "angular-toastr": "^2.1.1",
+    "angular-translate": "^2.15.1",
+    "es5-shim": "^4.6.7",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "lodash": "^4.17.21",
+    "pretty-js": "^0.2.2"
+  }
+}

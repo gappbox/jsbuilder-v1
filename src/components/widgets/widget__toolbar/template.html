@@ -1,0 +1,27 @@
+<div class="widget-toolbar">
+    <nav class="widget-toolbar__controls" ng-if="$ctrl.PageData.oneOfWidgetSelected">
+        <ul>
+            <li ng-repeat="tabName in $ctrl.PageData.tabs" ng-class="{ 'active': $ctrl.PageData.tabActive === $index }">
+                <button class="button" ng-bind="tabName" ng-click="$ctrl.onUserChangeTab($index)"></button>
+            </li>
+            <li class="reset">
+                <button class="button" ng-click="$ctrl.onUserResetCodePreview()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    {{ 'CONTROL_RESET' | translate }}
+                </button>
+            </li>
+            <li class="reset">
+                <button class="button" ng-click="$ctrl.onUserCopyToClipboard()" clipboard on-copied="$ctrl.onCopySuccess()" on-error="$ctrl.onCopyFail()">
+                    <i class="fa fa-files-o" aria-hidden="true"></i>
+                    {{ 'CONTROL_COPY' | translate }}
+                </button>
+            </li>
+            <li class="reset">
+                <button class="button" ng-click="$ctrl.onUserDownloadProject()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    {{ 'CONTROL_DOWNLOAD' | translate }}
+                </button>
+            </li>
+        </ul>
+    </nav>
+</div>

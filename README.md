@@ -1,1 +1,1 @@
-# jsbuilder-v1
+# JS Builder v1

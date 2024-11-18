@@ -1,0 +1,14 @@
+<div class="select">
+    <div class="select-value" ng-bind="value" ng-click="toggle()"></div>
+    <div class="select-drop" ng-show="isOpened">
+        <ul>
+            <li
+                ng-repeat="option in valueList"
+                ng-class="{ 'selected': value === option }"
+                ng-click="selectOption(option)"
+                ng-bind="option">
+            </li>
+        </ul>
+    </div>
+</div>
+

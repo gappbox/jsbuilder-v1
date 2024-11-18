@@ -1,0 +1,18 @@
+@mixin listreset {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin hidden-text {
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+@mixin hidden-elem {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    display: block !important;
+    width: 100% !important;
+}

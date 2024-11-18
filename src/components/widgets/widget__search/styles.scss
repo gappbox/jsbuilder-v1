@@ -1,0 +1,53 @@
+@use './../../../assets/styles/base/mixins';
+
+.search {
+    position: relative;
+    padding: 0 0 15px;
+}
+
+.search__row {
+    
+}
+
+.search__input {
+    background: rgba(0, 0, 0, .2);
+    box-shadow: 0 1px 1px #606060, 0 1px 1px #2a2a2a inset;
+    border-radius: 3px;
+    border: none;
+    color: #a2a2a2;
+    height: 36px;
+    font: {
+        size: 14px;
+    }
+    display: block;
+    padding: 0 35px 0 10px;
+    width: 100%;
+    
+    &:focus {
+        background: rgba(0, 0, 0, .33);
+        outline: none;
+    }
+}
+
+.search__icon {
+    @include mixins.size(25px);
+    
+    background: #aad15f;
+    background: -moz-linear-gradient(top, #aad15f 0%, #84a93d 100%);
+    background: -webkit-linear-gradient(top, #aad15f 0%, #84a93d 100%);
+    background: linear-gradient(to bottom, #aad15f 0%, #84a93d 100%);
+    border-radius: 2px;
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 14px;
+    line-height: 26px;
+    z-index: 10;
+    text-align: center;
+    
+    a {
+        color: #fff;
+        cursor: pointer;
+    }
+}
