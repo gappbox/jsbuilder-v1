@@ -2,16 +2,13 @@ name: Build and Deploy
 
 on:
   pull_request:
-    types:
-      - opened
-      - labeled
-      - unlabeled
-      - synchronize
+    types: [closed]
     branches:
       - main
 
 jobs:
   build:
+    if: ${{ github.event.pull_request.merged }}
     name: Build Application
     runs-on: ubuntu-latest
     steps:
