@@ -4,6 +4,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config.js",
     "build": "rimraf build && cross-env NODE_ENV=production webpack --config ./webpack.config.js",
+    "build-gh-pages": "rimraf build && cross-env NODE_ENV=gh-pages webpack --config ./webpack.config.js",
     "remove": "rimraf build"
   },
   "devDependencies": {

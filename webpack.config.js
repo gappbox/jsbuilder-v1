@@ -14,7 +14,7 @@ module.exports = {
     output: {
         filename: 'js/bundle.min.js',
         path: path.resolve(__dirname, 'build'),
-        publicPath: '/'
+        publicPath: process.env.NODE_ENV === 'gh-pages' ? '/jsbuilder-v1/' : '/'
     },
 
     module: {

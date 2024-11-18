@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Build artifact
-        run: npm run build
+        run: npm run build-gh-pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
