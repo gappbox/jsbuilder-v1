@@ -1,0 +1,58 @@
+name: Check and Build
+
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - unlabeled
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  check-label:
+    name: Validate labels
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for "release" labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const requiredLabels = ['release'];
+            const optionalLabels = ['major', 'minor', 'patch'];
+            const labels = context.payload.pull_request.labels.map((label) => label.name);
+            
+            if (!requiredLabels.every(label => labels.includes(label))) {
+              core.setFailed(`❌ The "release" label is required. Please add the "release" label to proceed.`);
+              return;
+            }
+
+            if (!optionalLabels.some(label => labels.includes(label))) {
+              core.setFailed(`❌ A versioning label is required. Please add one of the following labels to proceed: "major", "minor" or "patch".`);
+              return;
+            }
+
+  build:
+    name: Build Application
+    needs: check-label
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.11.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build artifact
+        run: npm run build
