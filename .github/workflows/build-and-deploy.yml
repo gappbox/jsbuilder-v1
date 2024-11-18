@@ -1,7 +1,14 @@
 name: Build and Deploy
 
 on:
-  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - unlabeled
+      - synchronize
+    branches:
+      - main
 
 jobs:
   build:
