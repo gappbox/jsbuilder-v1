@@ -5,6 +5,10 @@
     <title>jQuery Builder</title>
     <link media="all" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link media="all" rel="stylesheet" href="css/styles.min.css">
+    <script>
+      var baseHref = window.location.pathname;
+      document.write('<base href="' + baseHref + '">');
+    </script>
 </head>
 <body>
     <div id="wrapper">
