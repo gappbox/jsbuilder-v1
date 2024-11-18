@@ -7,10 +7,35 @@ on:
       - main
 
 jobs:
-  build:
+  check-label:
+    name: Validate labels
     if: ${{ github.event.pull_request.merged }}
-    name: Build Application
     runs-on: ubuntu-latest
+    outputs:
+      deployToGitHubPages: ${{ steps.labels.outputs.deployToGitHubPages }}
+      deployToDockerHub: ${{ steps.labels.outputs.deployToDockerHub }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for "release" labels
+        uses: actions/github-script@v7
+        id: labels
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map((label) => label.name);
+            const deployToGitHubPages = labels.includes('gh-pages');
+            const deployToDockerHub = labels.includes('docker');
+            core.setOutput('deployToGitHubPages', deployToGitHubPages);
+            core.setOutput('deployToDockerHub', deployToDockerHub);
+
+  build:
+    name: Build Application
+    needs: check-label
+    runs-on: ubuntu-latest
+    outputs:
+      deployToGitHubPages: ${{ needs.check-label.outputs.deployToGitHubPages }}
+      deployToDockerHub: ${{ needs.check-label.outputs.deployToDockerHub }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,6 +52,7 @@ jobs:
         run: npm run build-gh-pages
 
       - name: Upload artifact
+        if: ${{ needs.check-label.outputs.deployToGitHubPages == 'true' }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: /home/runner/work/jsbuilder-v1/jsbuilder-v1/build
@@ -34,6 +60,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
+    if: ${{ needs.build.outputs.deployToGitHubPages == 'true' }}
     needs: build
     permissions:
       pages: write
