@@ -99,6 +99,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
       - name: Push to GitGub Pages
         id: deployment
         uses: actions/deploy-pages@v4
