@@ -1,6 +1,7 @@
 name: Check and Build
 
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - opened
@@ -22,14 +23,18 @@ jobs:
           script: |
             const requiredLabels = ['release'];
             const optionalLabels = ['major', 'minor', 'patch'];
-            const labels = context.payload.pull_request.labels.map((label) => label.name);
-            
-            if (!requiredLabels.every(label => labels.includes(label))) {
+            const { data: pullRequest } = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+            });
+                  
+            if (!requiredLabels.every(label => pullRequest.labels.includes(label))) {
               core.setFailed(`❌ The "release" label is required. Please add the "release" label to proceed.`);
               return;
             }
 
-            if (!optionalLabels.some(label => labels.includes(label))) {
+            if (!optionalLabels.some(label => pullRequest.labels.includes(label))) {
               core.setFailed(`❌ A versioning label is required. Please add one of the following labels to proceed: "major", "minor" or "patch".`);
               return;
             }
