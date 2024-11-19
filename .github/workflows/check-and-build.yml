@@ -4,15 +4,15 @@ on:
   pull_request:
     types:
       - opened
-      - labeled
-      - unlabeled
       - synchronize
     branches:
       - main
-
-concurrency:
-  group: ${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: false
+        default: ''
 
 jobs:
   check-label:
