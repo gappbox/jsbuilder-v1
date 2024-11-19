@@ -3,16 +3,10 @@ name: Check and Build
 on:
   pull_request:
     types:
-      - opened
       - labeled
-      - unlabeled
       - synchronize
     branches:
       - main
-
-concurrency:
-  group: ${{ github.event.pull_request.number }}
-  cancel-in-progress: true
 
 jobs:
   check-label:
