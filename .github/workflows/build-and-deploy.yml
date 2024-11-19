@@ -6,15 +6,6 @@ on:
     branches:
       - main
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   check-labels:
     if: ${{ github.event.pull_request.merged }}
@@ -94,16 +85,15 @@ jobs:
     if: ${{ needs.build.outputs.deployToGitHubPages == 'true' }}
     name: Deploy to GitHub Pages
     needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
       - name: Push to GitGub Pages
         id: deployment
         uses: actions/deploy-pages@v4
