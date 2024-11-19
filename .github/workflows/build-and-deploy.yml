@@ -6,6 +6,15 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   check-labels:
     if: ${{ github.event.pull_request.merged }}
@@ -85,9 +94,6 @@ jobs:
     if: ${{ needs.build.outputs.deployToGitHubPages == 'true' }}
     name: Deploy to GitHub Pages
     needs: build
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
