@@ -121,3 +121,32 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USER }}/jsbuilder-v1:${{ needs.build.outputs.version }}
             ${{ secrets.DOCKER_HUB_USER }}/jsbuilder-v1:latest
+
+  updatePackageVersion:
+    name: Update Package Version
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.11.0"
+
+      - name: Update Package.json with New Version
+        run: |
+          jq ".version = \"${{ needs.build.outputs.version }}\"" package.json > temp.json && mv temp.json package.json
+
+      - name: Update PackageLock.json with New Version
+        run: npm install
+
+      - name: Commit and Push New Version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git add package-lock.json
+          git commit -m "chore: bump version to ${{ needs.build.outputs.version }}"
+          git push origin main
