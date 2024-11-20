@@ -27,8 +27,9 @@ jobs:
             const labels = context.payload.pull_request.labels.map((label) => label.name);
             const deployToGitHubPages = labels.includes('gh-pages');
             const deployToDockerHub = labels.includes('docker');
+
+            let versionType = 'patch';
             
-            let versionType = null;
             if (labels.includes('patch')) {
               versionType = 'patch';
             } else if (labels.includes('minor')) {
@@ -81,51 +82,14 @@ jobs:
           path: /home/runner/work/jsbuilder-v1/jsbuilder-v1/build
           retention-days: 1
 
-  deployToGitHubPages:
-    if: ${{ needs.build.outputs.deployToGitHubPages == 'true' }}
-    name: Deploy to GitHub Pages
-    needs: build
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Push to GitGub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  deployToDockerHub:
-    if: ${{ needs.build.outputs.deployToDockerHub == 'true' }}
-    name: Deploy to Docker Hub
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Build and Push to Docker Hub
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ secrets.DOCKER_HUB_USER }}/jsbuilder-v1:${{ needs.build.outputs.version }}
-            ${{ secrets.DOCKER_HUB_USER }}/jsbuilder-v1:latest
-
-  updatePackageVersion:
+  package:
     name: Update Package Version
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      deployToGitHubPages: ${{ needs.build.outputs.deployToGitHubPages }}
+      deployToDockerHub: ${{ needs.build.outputs.deployToDockerHub }}
+      version: ${{ needs.build.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -150,3 +114,44 @@ jobs:
           git add package-lock.json
           git commit -m "chore: bump version to ${{ needs.build.outputs.version }}"
           git push origin main
+
+  deployToGitHubPages:
+    if: ${{ needs.package.outputs.deployToGitHubPages == 'true' }}
+    name: Deploy to GitHub Pages
+    needs: package
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Push to GitGub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deployToDockerHub:
+    if: ${{ needs.package.outputs.deployToDockerHub == 'true' }}
+    name: Deploy to Docker Hub
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build and Push to Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USER }}/jsbuilder-v1:${{ needs.package.outputs.version }}
+            ${{ secrets.DOCKER_HUB_USER }}/jsbuilder-v1:latest
